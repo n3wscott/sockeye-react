@@ -8,19 +8,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import ImageIcon from '@material-ui/icons/Image';
-import WorkIcon from '@material-ui/icons/Work';
-import BeachAccessIcon from '@material-ui/icons/BeachAccess';
-import Divider from '@material-ui/core/Divider';
+import ReactJson from 'react-json-view';
 
-import SomeStyle from './SomeStyle'
-
-const foo = makeStyles(SomeStyle)
+import Attributes from './Attributes';
 
 const useStyles = makeStyles({
   root: {
@@ -29,43 +19,23 @@ const useStyles = makeStyles({
   },
   table: {
     minWidth: 650,
+    paddingTop: 0,
   },
   attributes: {
     minWidth: 300,
-  },
-  denselist: {
-    "padding-top": 0,
-    "padding-bottom": 0,
+    maxWidth: 500,
   },
 });
 
-function Attributes(props) {
-  const classes = useStyles();
-  let rows = [];
-
-  Object.keys(props.item).forEach(key => {
-    if (key === "data" || key === "key") {
-      return;
-    }
-    rows.push({"key":key, "value":props.item[key]});
-  });
-
-  return (
-    <List dense className={classes.root}>
-      {rows.map((row) => (
-        <ListItem classes={foo}>
-          {/*<ListItemText primary={row.value} secondary={row.key} />*/}
-          <ListItemText primary={row.value}/>
-        </ListItem>
-      ))}
-    </List>
-  );
-}
+// TODO: for xml: https://www.npmjs.com/package/react-xml-viewer
 
 function Data(props) {
   const data = props.item.data;
+
+  let src = JSON.parse(data);
+
   return (
-    <p>{data}</p>
+    <ReactJson src={src} name="data" />
   );
 }
 
@@ -84,10 +54,10 @@ export default function BasicTable(props) {
         <TableBody>
           {rows.map((row) => (
             <TableRow hover key={row.name}>
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" className={classes.attributes}>
                 <Attributes item={row} />
               </TableCell>
-              <TableCell align="right">
+              <TableCell>
                 <Data item={row} />
               </TableCell>
             </TableRow>
