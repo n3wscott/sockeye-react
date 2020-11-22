@@ -20,7 +20,7 @@ import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Table from './Table';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems, Filters } from './listItems';
 
 import ReconnectingWebSocket from "reconnecting-websocket";
 
@@ -34,7 +34,7 @@ function Source() {
   );
 }
 
-const drawerWidth = 240;
+const drawerWidth = 320;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,9 +89,9 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    width: theme.spacing(7),
+
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
+      width: theme.spacing(0),
     },
   },
   appBarSpacer: theme.mixins.toolbar,
@@ -169,7 +169,7 @@ export default function Dashboard(props) {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-        <List>{secondaryListItems}</List>
+        <Filters />
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

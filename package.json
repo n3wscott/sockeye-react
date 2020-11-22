@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -16,6 +17,7 @@
     "react-json-view": "^1.19.1",
     "react-scripts": "4.0.0",
     "react-tiny-fab": "^4.0.2",
+    "react-xml-viewer": "^1.1.0",
     "reconnecting-websocket": "^4.4.0",
     "styled-components": "^5.2.1",
     "web-vitals": "^0.2.4"

@@ -47,7 +47,7 @@ export default function CustomizedInputs(props) {
   let dataContentType = "unknown";
 
   Object.keys(props.item).forEach(key => {
-    if (key === "data" || key === "key") {
+    if (key === "data" || key === "data_base64" || key === "key") {
       return;
     }
     if (key === "specversion") {
