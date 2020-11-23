@@ -7,9 +7,15 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import JSONPretty from 'react-json-pretty';
+import Fade from '@material-ui/core/Fade';
 import './Json.css';
+import Slide from '@material-ui/core/Slide';
+import Collapse from '@material-ui/core/Collapse';
+
+
+import './App.css';
 
 import XMLViewer from 'react-xml-viewer'
 
@@ -120,18 +126,22 @@ export default function BasicTable(props) {
 
   return (
     <>
-    {filter.map((f) => (<p>{f.attr} [{f.match}] {f.value}</p>))}
+    {filter.map((f) => (<Fade in={true}><p>{f.attr} [{f.match}] {f.value}</p></Fade>))}
     <TableContainer component={Paper}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
             <TableCell>Attributes</TableCell>
-            <TableCell align="right">Data</TableCell>
+            <TableCell>Data</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
+
+
+
           {rows.filter(evalFilter).map((row) => (
-            <TableRow hover key={row.name}>
+            <Fade in={true} mountOnEnter={true} appear={true} timeout={300}>
+            <TableRow hover key={row.id}>
               <TableCell component="th" scope="row" className={classes.attributes}>
                 <Attributes item={row}/>
               </TableCell>
@@ -139,10 +149,13 @@ export default function BasicTable(props) {
                 <Data item={row}/>
               </TableCell>
             </TableRow>
-          ))}
+            </Fade>
+            ))}
+
+
         </TableBody>
       </Table>
     </TableContainer>
-      </>
+    </>
   );
 }

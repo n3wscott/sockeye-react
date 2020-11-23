@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import Dashboard from './Dashboard';
+import "./App.css"
+import TodoList from './Todo';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
 
@@ -66,7 +68,11 @@ export class App extends Component {
     const events = this.state.events;
 
     return (
+      <>
+        {/*<TodoList/>*/}
       <Dashboard items={events} />
+
+      </>
     );
   }
 }

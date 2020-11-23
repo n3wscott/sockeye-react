@@ -6,8 +6,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import ViewListIcon from '@material-ui/icons/ViewList';
-import FilterIcon from '@material-ui/icons/Filter';
 import AddIcon from '@material-ui/icons/Add';
 import List from "@material-ui/core/List";
 import InputLabel from '@material-ui/core/InputLabel';
@@ -22,9 +20,6 @@ import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-
-
-
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -33,31 +28,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-export const mainListItems = (
-  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <ViewListIcon />
-      </ListItemIcon>
-      <ListItemText primary="Sockeye" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <FilterIcon />
-      </ListItemIcon>
-      <ListItemText primary="Triggers" />
-    </ListItem>
-  </div>
-);
-
-
 const useStyles = makeStyles((theme) => ({
   table: {
-    minWidth: 300,
+    minWidth: theme.spacing(42),
   },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 200,
+    minWidth: theme.spacing(42),
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -98,7 +75,7 @@ function EnhancedTableHead(props) {
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
-    paddingLeft: theme.spacing(2),
+    paddingLeft: theme.spacing(0),
     paddingRight: theme.spacing(1),
   },
   highlight:
@@ -113,6 +90,7 @@ const useToolbarStyles = makeStyles((theme) => ({
       },
   title: {
     flex: '1 1 100%',
+    paddingLeft: 8,
   },
 }));
 
@@ -132,7 +110,7 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          Nutrition
+          Filters
         </Typography>
       )}
 
@@ -151,7 +129,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export function Filters(props) {
+export default function Filters(props) {
   const classes = useStyles();
 
   const [selected, setSelected] = React.useState([]);
@@ -212,7 +190,7 @@ export function Filters(props) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = rows.map((n) => n.attr);
       setSelected(newSelecteds);
       return;
     }

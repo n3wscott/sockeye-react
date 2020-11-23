@@ -41,3 +41,38 @@
     transform: rotate(360deg);
   }
 }
+
+.example-enter {
+  opacity: 0.01;
+}
+
+.example-appear {
+  opacity: 0.01;
+  color: red;
+}
+
+.example-appear.example-appear-active {
+  opacity: 1;
+  color: blue;
+  transition: opacity .5s ease-in;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+  color: green;
+  transition: opacity 500ms ease-in;
+}
+
+.example-leave {
+  opacity: 1;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  color: yellow;
+  transition: opacity 300ms ease-in;
+}
+
+.table tr.visible.transition {
+  display: table-row !important;
+}

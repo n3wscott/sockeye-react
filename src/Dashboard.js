@@ -20,7 +20,7 @@ import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Table from './Table';
-import { mainListItems, Filters } from './listItems';
+import Filters from './Filters';
 
 function Source() {
   return (
@@ -32,7 +32,7 @@ function Source() {
   );
 }
 
-const drawerWidth = 320;
+const drawerWidth = 400;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -113,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sockeyeLogo: {
     height: 60,
-    paddingRight: 40,
+    paddingRight: 80,
   },
 }));
 
@@ -172,8 +172,6 @@ export default function Dashboard(props) {
             <ChevronLeftIcon />
           </IconButton>
         </div>
-        <Divider />
-        <List>{mainListItems}</List>
         <Divider />
         <Filters onChange={(event, newFilter) => {
           console.log(newFilter)
