@@ -30,36 +30,11 @@ const useStyles = makeStyles({
   },
 });
 
-// TODO: for xml: https://www.npmjs.com/package/react-xml-viewer
-
-function jsonSyntaxHighlight(json) {
-  json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  let cls = 'json-number';
-  let match = json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, function (match) {
-    if (/^"/.test(match)) {
-      if (/:$/.test(match)) {
-        cls = 'json-key';
-      } else {
-        cls = 'json-string';
-      }
-    } else if (/true|false/.test(match)) {
-      cls = 'json-boolean';
-    } else if (/null/.test(match)) {
-      cls = 'json-null';
-    }
-    return match;
-  });
-  return (
-    <span className={cls}> {match} </span>
-  );
-}
-
 function Data(props) {
   let data = props.item.data;
 
   let data_base64 = null;
   if ("data_base64" in props.item) {
-    console.log("decoding data_base64")
     data_base64 = props.item["data_base64"];
   }
 
@@ -102,10 +77,50 @@ function Data(props) {
   );
 }
 
+
+
 export default function BasicTable(props) {
   const classes = useStyles();
   const rows = props.items;
+  const filter = props.filter;
+
+  function evalFilter(event) {
+    for (let i = 0; i < filter.length; ++i) {
+      if (filter[i].attr in event) {
+        switch (filter[i].match) {
+          case "Exact":
+            if (event[filter[i].attr] !== filter[i].value) {
+              return false;
+            }
+            break;
+          case "Includes":
+            if (!event[filter[i].attr].includes(filter[i].value)) {
+              return false;
+            }
+            break;
+          case "Prefix":
+            if (!event[filter[i].attr].startsWith(filter[i].value)) {
+              return false;
+            }
+            break;
+          case "Suffix":
+            if (!event[filter[i].attr].endsWith(filter[i].value)) {
+              return false;
+            }
+            break;
+          default:
+            break;
+        }
+      } else {
+        return false;
+      }
+    }
+    return true;
+  }
+
   return (
+    <>
+    {filter.map((f) => (<p>{f.attr} [{f.match}] {f.value}</p>))}
     <TableContainer component={Paper}>
       <Table className={classes.table}>
         <TableHead>
@@ -115,7 +130,7 @@ export default function BasicTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.filter(evalFilter).map((row) => (
             <TableRow hover key={row.name}>
               <TableCell component="th" scope="row" className={classes.attributes}>
                 <Attributes item={row}/>
@@ -128,5 +143,6 @@ export default function BasicTable(props) {
         </TableBody>
       </Table>
     </TableContainer>
+      </>
   );
 }

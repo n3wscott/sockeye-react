@@ -22,8 +22,6 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Table from './Table';
 import { mainListItems, Filters } from './listItems';
 
-import ReconnectingWebSocket from "reconnecting-websocket";
-
 function Source() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -113,6 +111,10 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  sockeyeLogo: {
+    height: 60,
+    paddingRight: 40,
+  },
 }));
 
 export default function Dashboard(props) {
@@ -120,6 +122,9 @@ export default function Dashboard(props) {
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+
+  const [filter, setFilter] = React.useState([]);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -142,7 +147,7 @@ export default function Dashboard(props) {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            CloudEvents Stream Viewer
+            Sockeye
           </Typography>
           <IconButton color="inherit">
             <ClearAllIcon />
@@ -162,6 +167,7 @@ export default function Dashboard(props) {
         open={open}
       >
         <div className={classes.toolbarIcon}>
+          <img className={classes.sockeyeLogo} alt={""} src="http://sockeye.default.20.190.7.108.xip.io/static/assets/sockeye-logo.png" />
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>
@@ -169,13 +175,16 @@ export default function Dashboard(props) {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-        <Filters />
+        <Filters onChange={(event, newFilter) => {
+          console.log(newFilter)
+          setFilter(newFilter);
+        }}/>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Paper>
-            <Table items={events} />
+            <Table items={events} filter={filter}/>
           </Paper>
 
           <Box pt={4}>
