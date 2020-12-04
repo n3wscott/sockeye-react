@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -19,8 +19,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import LockIcon from '@material-ui/icons/Lock';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import Table from './Table';
 import Filters from './Filters';
+import { func } from 'prop-types';
 
 function Source() {
   return (
@@ -115,26 +120,63 @@ const useStyles = makeStyles((theme) => ({
     height: 60,
     paddingRight: 80,
   },
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
 }));
 
 export default function Dashboard(props) {
   const events = props.items;
 
+  const endRef = useRef(null)
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [scrollLock, setScrollLock] = React.useState(true);
 
   const [filter, setFilter] = React.useState([]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
 
+  const handleScrollLock = () => {
+    setScrollLock(!scrollLock);
+    if (scrollLock) {
+      endRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+  };
+
+  const handleWheel = (e) => {
+    if (scrollLock) {
+      setScrollLock(false);
+    }
+  };
+
+  // After render.
+  useEffect(() => {
+    if (scrollLock) {
+      endRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+  });
+
+  let ScrollLockIcon = LockIcon;
+  if (!scrollLock) {
+    ScrollLockIcon = LockOpenIcon;
+  }
+
   return (
-    <div className={classes.root}>
+    <div className={classes.root} onWheel={handleWheel}>
       <CssBaseline />
+      <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleScrollLock}>
+        <ScrollLockIcon />
+      </Fab>
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
@@ -184,6 +226,8 @@ export default function Dashboard(props) {
           <Paper>
             <Table items={events} filter={filter}/>
           </Paper>
+          
+          <div ref={endRef} />
 
           <Box pt={4}>
             <Source />

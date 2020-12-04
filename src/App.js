@@ -1,9 +1,7 @@
 import React, {Component} from "react";
 import Dashboard from './Dashboard';
 import "./App.css"
-import TodoList from './Todo';
 import ReconnectingWebSocket from 'reconnecting-websocket';
-
 
 export class App extends Component {
   constructor(props) {
@@ -57,22 +55,19 @@ export class App extends Component {
     });
 
     let al = [...this.state.events];
-    al.unshift(data)
+    al.push(data)
 
     this.setState( {
         events: al
     });
   }
 
+
   render() {
     const events = this.state.events;
 
     return (
-      <>
-        {/*<TodoList/>*/}
       <Dashboard items={events} />
-
-      </>
     );
   }
 }
