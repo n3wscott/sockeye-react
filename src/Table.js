@@ -13,7 +13,7 @@ import Fade from '@material-ui/core/Fade';
 import './Json.css';
 import Slide from '@material-ui/core/Slide';
 import Collapse from '@material-ui/core/Collapse';
-
+import Demo from './Demo';
 
 import './App.css';
 
@@ -83,50 +83,46 @@ function Data(props) {
   );
 }
 
+const data = {
+  name: 'root',
+  value: 5,
+  children: [
+    {
+      name: 'custom tooltip',
+      value: 1,
+ 
+      // Each node can specify a "tooltip" to be shown on hover.
+      // By default, the node's "name" will be used for this.
+      tooltip: 'Custom tooltip shown on hover',
+    },
+    {
+      name: 'custom colors',
+ 
+      // Each node can also provide a custom "backgroundColor" or text "color".
+      backgroundColor: '#35f',
+      color: '#fff',
+ 
+      value: 3,
+      children: [
+        {
+          name: 'leaf',
+          value: 2
+        }
+      ]
+    },
+  ],
+};
 
 
 export default function BasicTable(props) {
   const classes = useStyles();
   const rows = props.items;
-  const filter = props.filter;
-
-  function evalFilter(event) {
-    for (let i = 0; i < filter.length; ++i) {
-      if (filter[i].attr in event) {
-        switch (filter[i].match) {
-          case "Exact":
-            if (event[filter[i].attr] !== filter[i].value) {
-              return false;
-            }
-            break;
-          case "Includes":
-            if (!event[filter[i].attr].includes(filter[i].value)) {
-              return false;
-            }
-            break;
-          case "Prefix":
-            if (!event[filter[i].attr].startsWith(filter[i].value)) {
-              return false;
-            }
-            break;
-          case "Suffix":
-            if (!event[filter[i].attr].endsWith(filter[i].value)) {
-              return false;
-            }
-            break;
-          default:
-            break;
-        }
-      } else {
-        return false;
-      }
-    }
-    return true;
-  }
 
   return (
     <>
-    {filter.map((f) => (<Fade in={true}><p>{f.attr} [{f.match}] {f.value}</p></Fade>))}
+    
+  <Demo />
+    
     <TableContainer component={Paper}>
       <Table className={classes.table}>
         <TableHead>
@@ -137,9 +133,7 @@ export default function BasicTable(props) {
         </TableHead>
         <TableBody>
 
-
-
-          {rows.filter(evalFilter).map((row) => (
+          {rows.map((row) => (
             <Fade in={true} mountOnEnter={true} appear={true} timeout={300}>
             <TableRow hover key={row.id}>
               <TableCell component="th" scope="row" className={classes.attributes}>
