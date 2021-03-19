@@ -51,7 +51,7 @@ import Attributes from './Attributes';
 const useStyles = makeStyles({
   root: {
     width: '100%',
-  },
+  }
   // nested: {
   //   // paddingLeft: 4,
   // },
