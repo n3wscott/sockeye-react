@@ -55,11 +55,21 @@ export class App extends Component {
     });
 
     let al = [...this.state.events];
-    al.push(data)
 
-    this.setState( {
+    console.log(data["data"]);
+    if (data["data"] != null){
+      al.push(data);
+      this.setState( {
         events: al
     });
+    return;
+    } 
+    if (data["data"] === undefined){
+      alert("Event recieved with an invalid or missing data payload. Check the console for more informtion");
+      console.log("More information on the invalid event: ", event);
+      return; 
+    }
+
   }
 
 
