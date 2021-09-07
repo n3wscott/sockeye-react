@@ -65,7 +65,7 @@ export class App extends Component {
     return;
     } 
     if (data["data"] === undefined){
-      alert("Event recieved with an invalid or missing data payload. Check the console for more information");
+      alert("Event received with an invalid or missing data payload. Check the console for more information");
       console.log("More information on the invalid event: ", event);
       return; 
     }
