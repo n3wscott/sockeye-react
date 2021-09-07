@@ -58,7 +58,7 @@ export class App extends Component {
     al.push(data)
 
     this.setState( {
-        events: al
+      events: al.reverse()
     });
   }
 
