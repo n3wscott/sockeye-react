@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -27,6 +27,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { TextArea } from 'grommet';
+import { Button } from '@material-ui/core';
+const axios = require('axios');
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -129,7 +132,13 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function Filters(props) {
+export default function Filters(props)  {
+  const [id, setID] = useState("");
+  const [type, setType] = useState("");
+  const [source, setSource] = useState("");
+  const [contenttype, setContenttype] = useState("application/json");
+  const [data, setData] = useState("");
+
   const classes = useStyles();
 
   const [selected, setSelected] = React.useState([]);
@@ -141,6 +150,28 @@ export default function Filters(props) {
 
   const handleChange = (event) => {
     setFilterMatch(event.target.value);
+  };
+
+  const handleInjection = (event) => {
+    const corsOptions = {
+      origin: "*",
+  };
+
+  const setValue = (event) => {
+    console.log(event.target)
+    // this.setState({id: event.target.value});
+  }
+  
+    axios.post('http://localhost:8080/inject', {
+      data,
+      headers: {'Ce-Id': id, 'Ce-Specversion': '1.0', 'Ce-Type': type, 'Ce-Source': source, 'Content-Type': contenttype}
+    }, corsOptions)
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   };
 
   const handleAdd = (event) => {
@@ -322,6 +353,56 @@ export default function Filters(props) {
           <AddIcon />
         </ListItemIcon>
         <ListItemText primary="Add Filter" />
+      </ListItem>
+      <ListItem>
+
+      <TableContainer component={Paper}>
+          <Table className={classes.table}>
+            <EnhancedTableHead
+              classes={classes}
+              numSelected={selected.length}
+              onSelectAllClick={handleSelectAllClick}
+              rowCount={rows.length}
+            />
+        <TableBody>
+        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+          Injection
+        </Typography>
+        <TableRow>
+        <FormControl className={classes.formControl} >
+          <TextField id="input-injection-ceid" label="ID" value={id} onChange={e=> setID( e.target.value)}/>
+        </FormControl>
+        </TableRow>
+        <TableRow>
+        <FormControl className={classes.formControl}>
+          <TextField id="input-injection-type" label="Type" value={type} onChange={e=> setType(e.target.value)}/>
+        </FormControl>
+        </TableRow>
+        <TableRow>
+        <FormControl className={classes.formControl}>
+          <TextField id="input-injection-source" label="Source" value={source} onChange={e=> setSource(e.target.value)} />
+        </FormControl>
+        </TableRow>
+        <TableRow>
+        <FormControl className={classes.formControl}>
+          <TextField id="input-injection-contenttype" label="Content-Type" value={contenttype} onChange={e=> setContenttype(e.target.value)} />
+        </FormControl>
+        </TableRow>
+        <TableRow>
+        <FormControl className={classes.formControl}>
+          <TextArea id="input-injection-data" label="Data" value={data} onChange={e=> setData(e.target.value)}/>
+        </FormControl>
+        </TableRow>
+        <TableRow>
+        <FormControl className={classes.formControl}>
+          <Button id="input-injection-button" label="Submit" onClick={handleInjection}>
+            Send
+            </Button>
+        </FormControl>
+        </TableRow>
+            </TableBody>
+            </Table>
+            </TableContainer>
       </ListItem>
     </List>
   );
