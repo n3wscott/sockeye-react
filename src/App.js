@@ -56,7 +56,6 @@ export class App extends Component {
 
     let al = [...this.state.events];
 
-    console.log(data["data"]);
     if (data["data"] != null){
       al.push(data);
       this.setState( {
