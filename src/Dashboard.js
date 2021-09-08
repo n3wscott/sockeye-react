@@ -139,8 +139,6 @@ export default function Dashboard(props) {
 
   const [filter, setFilter] = React.useState([]);
 
-  // const [revert, setRevert] = React.useState(props.revert);
-
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -203,7 +201,6 @@ export default function Dashboard(props) {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-           {/* <CachedIcon  /> */}
            <CachedIcon onClick={() => props.revert()} />
         </Toolbar>
       </AppBar>
