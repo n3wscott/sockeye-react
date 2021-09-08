@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from 'react'
-import Table from './Table';
-import Filters from './Filters';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
-import Fab from '@material-ui/core/Fab';
+import GitHubIcon from '@material-ui/icons/GitHub';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,9 +19,21 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import TextField from '@material-ui/core/TextField';
 import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import GitHubIcon from '@material-ui/icons/GitHub';
+import Table from './Table';
+import TableRow from '@material-ui/core/TableRow';
+import TableBody from '@material-ui/core/TableBody';
+import Filters from './Filters';
+import { func } from 'prop-types';
+import FormControl from '@material-ui/core/FormControl';
+import { TextArea } from 'grommet';
+import { Button } from '@material-ui/core';
+const axios = require('axios');
+
 
 function Source() {
   return (
@@ -135,6 +146,14 @@ export default function Dashboard(props) {
 
   const [filter, setFilter] = React.useState([]);
 
+  const [id, setID] = React.useState("");
+  const [type, setType] = React.useState("");
+  const [source, setSource] = React.useState("");
+  const [contenttype, setContenttype] = React.useState("application/json");
+  const [data, setData] = React.useState("");
+
+  const [showInjection, setShowInjection] = React.useState(true);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -156,6 +175,32 @@ export default function Dashboard(props) {
     }
   };
 
+  const handleShowInjection = (event) => {
+    setShowInjection(!showInjection);
+  }
+
+  const handleInjection = (event) => {
+    const corsOptions = {
+      origin: "*",
+  };
+
+  // const setValue = (event) => {
+  //   console.log(event.target)
+  //   // this.setState({id: event.target.value});
+  // }
+  
+    axios.post('http://localhost:8080/inject', {
+      data,
+      headers: {'Ce-Id': id, 'Ce-Specversion': '1.0', 'Ce-Type': type, 'Ce-Source': source, 'Content-Type': contenttype}
+    }, corsOptions)
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  };
+
   // After render.
   useEffect(() => {
     if (scrollLock) {
@@ -168,8 +213,10 @@ export default function Dashboard(props) {
     ScrollLockIcon = LockOpenIcon;
   }
 
+
   return (
     <div className={classes.root} onWheel={handleWheel}>
+      <AddIcon onClick={handleShowInjection} />
       <CssBaseline />
       <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleScrollLock}>
         <ScrollLockIcon />
@@ -217,19 +264,72 @@ export default function Dashboard(props) {
           setFilter(newFilter);
         }}/>
       </Drawer>
+   
+      <Drawer
+        variant="permanent"
+        classes={{
+          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+        }}
+        hidden={showInjection}
+      >
+        <div className={classes.toolbarIcon }>
+          
+          </div>
+
+        <Divider />
+        <TableBody>
+        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+          Injection
+        </Typography>
+        <TableRow>
+        <FormControl className={classes.formControl} >
+          <TextField id="input-injection-ceid" label="ID" value={id} onChange={e=> setID( e.target.value)}/>
+        </FormControl>
+        </TableRow>
+        <TableRow>
+        <FormControl className={classes.formControl}>
+          <TextField id="input-injection-type" label="Type" value={type} onChange={e=> setType(e.target.value)}/>
+        </FormControl>
+        </TableRow>
+        <TableRow>
+        <FormControl className={classes.formControl}>
+          <TextField id="input-injection-source" label="Source" value={source} onChange={e=> setSource(e.target.value)} />
+        </FormControl>
+        </TableRow>
+        <TableRow>
+        <FormControl className={classes.formControl}>
+          <TextField id="input-injection-contenttype" label="Content-Type" value={contenttype} onChange={e=> setContenttype(e.target.value)} />
+        </FormControl>
+        </TableRow>
+        <TableRow>
+        <FormControl className={classes.formControl}>
+          <TextArea id="input-injection-data" label="Data" value={data} onChange={e=> setData(e.target.value)}/>
+        </FormControl>
+        </TableRow>
+        <TableRow>
+        <FormControl className={classes.formControl}>
+          <Button id="input-injection-button" label="Submit" onClick={handleInjection}>
+            Send
+            </Button>
+        </FormControl>
+        </TableRow>
+            </TableBody>
+        </Drawer>
+
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Paper>
             <Table items={events} filter={filter}/>
           </Paper>
-          
           <div ref={endRef} />
 
           <Box pt={4}>
             <Source />
           </Box>
+       
         </Container>
+        
       </main>
     </div>
   );

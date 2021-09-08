@@ -29,7 +29,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { TextArea } from 'grommet';
 import { Button } from '@material-ui/core';
-const axios = require('axios');
+
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -133,11 +133,11 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function Filters(props)  {
-  const [id, setID] = useState("");
-  const [type, setType] = useState("");
-  const [source, setSource] = useState("");
-  const [contenttype, setContenttype] = useState("application/json");
-  const [data, setData] = useState("");
+  // const [id, setID] = useState("");
+  // const [type, setType] = useState("");
+  // const [source, setSource] = useState("");
+  // const [contenttype, setContenttype] = useState("application/json");
+  // const [data, setData] = useState("");
 
   const classes = useStyles();
 
@@ -152,27 +152,7 @@ export default function Filters(props)  {
     setFilterMatch(event.target.value);
   };
 
-  const handleInjection = (event) => {
-    const corsOptions = {
-      origin: "*",
-  };
 
-  const setValue = (event) => {
-    console.log(event.target)
-    // this.setState({id: event.target.value});
-  }
-  
-    axios.post('http://localhost:8080/inject', {
-      data,
-      headers: {'Ce-Id': id, 'Ce-Specversion': '1.0', 'Ce-Type': type, 'Ce-Source': source, 'Content-Type': contenttype}
-    }, corsOptions)
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  };
 
   const handleAdd = (event) => {
     let match;
@@ -364,7 +344,7 @@ export default function Filters(props)  {
               onSelectAllClick={handleSelectAllClick}
               rowCount={rows.length}
             />
-        <TableBody>
+        {/* <TableBody>
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
           Injection
         </Typography>
@@ -400,7 +380,7 @@ export default function Filters(props)  {
             </Button>
         </FormControl>
         </TableRow>
-            </TableBody>
+            </TableBody> */}
             </Table>
             </TableContainer>
       </ListItem>
