@@ -8,7 +8,14 @@ export class App extends Component {
     super(props);
     this.state = {
       events: [],
+      revert: false,
     }
+  }
+
+  handleRevert(e){
+    this.setState({revert: !this.state.revert})
+    this.setState( {
+      events: this.state.events.reverse()});
   }
 
   componentDidMount() {
@@ -56,18 +63,23 @@ export class App extends Component {
 
     let al = [...this.state.events];
     al.push(data)
-
-    this.setState( {
-      events: al.reverse()
-    });
+    if (this.state.revert){
+    this.setState({events: al.reverse()});
+    } if (!this.state.revert) {
+    this.setState({events: al});
   }
+}
+
 
 
   render() {
     const events = this.state.events;
 
     return (
-      <Dashboard items={events} />
+      <div>
+
+      <Dashboard items={events} revert={() => this.handleRevert()}  />
+      </div>
     );
   }
 }

@@ -20,6 +20,7 @@ import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Fab from '@material-ui/core/Fab';
+import CachedIcon from '@material-ui/icons/Cached';
 import AddIcon from '@material-ui/icons/Add';
 import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
@@ -138,6 +139,8 @@ export default function Dashboard(props) {
 
   const [filter, setFilter] = React.useState([]);
 
+  // const [revert, setRevert] = React.useState(props.revert);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -171,6 +174,7 @@ export default function Dashboard(props) {
     ScrollLockIcon = LockOpenIcon;
   }
 
+
   return (
     <div className={classes.root} onWheel={handleWheel}>
       <CssBaseline />
@@ -199,6 +203,8 @@ export default function Dashboard(props) {
               <NotificationsIcon />
             </Badge>
           </IconButton>
+           {/* <CachedIcon  /> */}
+           <CachedIcon onClick={() => props.revert()} />
         </Toolbar>
       </AppBar>
       <Drawer
