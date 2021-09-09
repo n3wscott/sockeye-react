@@ -7,12 +7,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import JSONPretty from 'react-json-pretty';
 import Fade from '@material-ui/core/Fade';
 import './Json.css';
-import Slide from '@material-ui/core/Slide';
-import Collapse from '@material-ui/core/Collapse';
 
 
 import './App.css';
