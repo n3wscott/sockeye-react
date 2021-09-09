@@ -1,45 +1,43 @@
-import React, { useEffect, useRef } from 'react'
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
-import GitHubIcon from '@material-ui/icons/GitHub';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
-import MenuIcon from '@material-ui/icons/Menu';
-import ClearAllIcon from '@material-ui/icons/ClearAll';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-import TextField from '@material-ui/core/TextField';
-import LockIcon from '@material-ui/icons/Lock';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
-import Table from './Table';
-import TableRow from '@material-ui/core/TableRow';
-import TableBody from '@material-ui/core/TableBody';
-import Filters from './Filters';
-import { func } from 'prop-types';
-import FormControl from '@material-ui/core/FormControl';
-import { TextArea } from 'grommet';
-import { Button } from '@material-ui/core';
-const axios = require('axios');
-
+import React, { useEffect, useRef } from "react";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Drawer from "@material-ui/core/Drawer";
+import Box from "@material-ui/core/Box";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
+import Badge from "@material-ui/core/Badge";
+import Container from "@material-ui/core/Container";
+import Paper from "@material-ui/core/Paper";
+import Link from "@material-ui/core/Link";
+import MenuIcon from "@material-ui/icons/Menu";
+import ClearAllIcon from "@material-ui/icons/ClearAll";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+import TextField from "@material-ui/core/TextField";
+import LockIcon from "@material-ui/icons/Lock";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
+import Table from "./Table";
+import TableRow from "@material-ui/core/TableRow";
+import TableBody from "@material-ui/core/TableBody";
+import Filters from "./Filters";
+import { func } from "prop-types";
+import FormControl from "@material-ui/core/FormControl";
+import { TextArea } from "grommet";
+import { Button } from "@material-ui/core";
+const axios = require("axios");
 
 function Source() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       <Link color="inherit" href="https://github.com/n3wscott/sockeye-react">
-        <GitHubIcon/>
+        <GitHubIcon />
       </Link>
     </Typography>
   );
@@ -49,21 +47,21 @@ const drawerWidth = 400;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
   },
   toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: "0 8px",
     ...theme.mixins.toolbar,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
@@ -71,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   appBarShift: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -80,36 +78,36 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 36,
   },
   menuButtonHidden: {
-    display: 'none',
+    display: "none",
   },
   title: {
     flexGrow: 1,
   },
   drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
+    position: "relative",
+    whiteSpace: "nowrap",
     width: drawerWidth,
-    transition: theme.transitions.create('width', {
+    transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
+    overflowX: "hidden",
+    transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
 
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: theme.spacing(0),
     },
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
+    height: "100vh",
+    overflow: "auto",
   },
   container: {
     paddingTop: theme.spacing(4),
@@ -117,9 +115,9 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
+    display: "flex",
+    overflow: "auto",
+    flexDirection: "column",
   },
   fixedHeight: {
     height: 240,
@@ -129,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 80,
   },
   fab: {
-    position: 'absolute',
+    position: "absolute",
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
@@ -138,21 +136,25 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard(props) {
   const events = props.items;
 
-  const endRef = useRef(null)
-
+  const endRef = useRef(null);
   const classes = useStyles();
+
   const [open, setOpen] = React.useState(false);
   const [scrollLock, setScrollLock] = React.useState(true);
-
   const [filter, setFilter] = React.useState([]);
-
-  const [id, setID] = React.useState("");
-  const [type, setType] = React.useState("");
-  const [source, setSource] = React.useState("");
+  const [id, setID] = React.useState("0123211");
+  const [type, setType] = React.useState("test.type");
+  const [source, setSource] = React.useState("test.source");
   const [contenttype, setContenttype] = React.useState("application/json");
-  const [data, setData] = React.useState("");
-
+  const [data, setData] = React.useState('{"test":"data"}');
+  const [destination, setDestination] = React.useState(
+    "http://broker-ingress.knative-eventing.svc.cluster.local/default/default"
+  );
   const [showInjection, setShowInjection] = React.useState(true);
+
+  const divStyle = {
+    width: "380px",
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -165,7 +167,7 @@ export default function Dashboard(props) {
   const handleScrollLock = () => {
     setScrollLock(!scrollLock);
     if (scrollLock) {
-      endRef.current.scrollIntoView({ behavior: "smooth" })
+      endRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -177,34 +179,41 @@ export default function Dashboard(props) {
 
   const handleShowInjection = (event) => {
     setShowInjection(!showInjection);
-  }
+  };
 
   const handleInjection = (event) => {
     const corsOptions = {
       origin: "*",
-  };
+    };
 
-  // const setValue = (event) => {
-  //   console.log(event.target)
-  //   // this.setState({id: event.target.value});
-  // }
-  
-    axios.post('http://localhost:8080/inject', {
-      data,
-      headers: {'Ce-Id': id, 'Ce-Specversion': '1.0', 'Ce-Type': type, 'Ce-Source': source, 'Content-Type': contenttype}
-    }, corsOptions)
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    axios
+      .post(
+        "http://localhost:8080/inject",
+        {
+          destination,
+          data,
+          headers: {
+            "Ce-Id": id,
+            "Ce-Specversion": "1.0",
+            "Ce-Type": type,
+            "Ce-Source": source,
+            "Content-Type": contenttype,
+          },
+        },
+        corsOptions
+      )
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   // After render.
   useEffect(() => {
     if (scrollLock) {
-      endRef.current.scrollIntoView({ behavior: "smooth" })
+      endRef.current.scrollIntoView({ behavior: "smooth" });
     }
   });
 
@@ -213,26 +222,42 @@ export default function Dashboard(props) {
     ScrollLockIcon = LockOpenIcon;
   }
 
-
   return (
     <div className={classes.root} onWheel={handleWheel}>
       <AddIcon onClick={handleShowInjection} />
       <CssBaseline />
-      <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleScrollLock}>
+      <Fab
+        color="primary"
+        aria-label="add"
+        className={classes.fab}
+        onClick={handleScrollLock}
+      >
         <ScrollLockIcon />
       </Fab>
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+      <AppBar
+        position="absolute"
+        className={clsx(classes.appBar, open && classes.appBarShift)}
+      >
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+            className={clsx(
+              classes.menuButton,
+              open && classes.menuButtonHidden
+            )}
           >
             <MenuIcon />
           </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.title}
+          >
             Sockeye
           </Typography>
           <IconButton color="inherit">
@@ -253,18 +278,24 @@ export default function Dashboard(props) {
         open={open}
       >
         <div className={classes.toolbarIcon}>
-          <img className={classes.sockeyeLogo} alt={""} src="http://sockeye.default.20.190.7.108.xip.io/static/assets/sockeye-logo.png" />
+          <img
+            className={classes.sockeyeLogo}
+            alt={""}
+            src="http://sockeye.default.20.190.7.108.xip.io/static/assets/sockeye-logo.png"
+          />
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>
         </div>
         <Divider />
-        <Filters onChange={(event, newFilter) => {
-          console.log(newFilter)
-          setFilter(newFilter);
-        }}/>
+        <Filters
+          onChange={(event, newFilter) => {
+            console.log(newFilter);
+            setFilter(newFilter);
+          }}
+        />
       </Drawer>
-   
+
       <Drawer
         variant="permanent"
         classes={{
@@ -272,64 +303,104 @@ export default function Dashboard(props) {
         }}
         hidden={showInjection}
       >
-        <div className={classes.toolbarIcon }>
-          
-          </div>
+        <div className={classes.toolbarIcon}></div>
 
         <Divider />
         <TableBody>
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          Injection
-        </Typography>
-        <TableRow>
-        <FormControl className={classes.formControl} >
-          <TextField id="input-injection-ceid" label="ID" value={id} onChange={e=> setID( e.target.value)}/>
-        </FormControl>
-        </TableRow>
-        <TableRow>
-        <FormControl className={classes.formControl}>
-          <TextField id="input-injection-type" label="Type" value={type} onChange={e=> setType(e.target.value)}/>
-        </FormControl>
-        </TableRow>
-        <TableRow>
-        <FormControl className={classes.formControl}>
-          <TextField id="input-injection-source" label="Source" value={source} onChange={e=> setSource(e.target.value)} />
-        </FormControl>
-        </TableRow>
-        <TableRow>
-        <FormControl className={classes.formControl}>
-          <TextField id="input-injection-contenttype" label="Content-Type" value={contenttype} onChange={e=> setContenttype(e.target.value)} />
-        </FormControl>
-        </TableRow>
-        <TableRow>
-        <FormControl className={classes.formControl}>
-          <TextArea id="input-injection-data" label="Data" value={data} onChange={e=> setData(e.target.value)}/>
-        </FormControl>
-        </TableRow>
-        <TableRow>
-        <FormControl className={classes.formControl}>
-          <Button id="input-injection-button" label="Submit" onClick={handleInjection}>
-            Send
-            </Button>
-        </FormControl>
-        </TableRow>
-            </TableBody>
-        </Drawer>
+          <Typography
+            className={classes.title}
+            variant="h6"
+            id="tableTitle"
+            component="div"
+          >
+            Injection
+          </Typography>
+          <TableRow>
+            <FormControl style={divStyle}>
+              <TextField
+                id="input-injection-ceid"
+                label="ID"
+                value={id}
+                onChange={(e) => setID(e.target.value)}
+              />
+            </FormControl>
+          </TableRow>
+          <TableRow>
+            <FormControl style={divStyle}>
+              <TextField
+                id="input-injection-type"
+                label="Type"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+              />
+            </FormControl>
+          </TableRow>
+          <TableRow>
+            <FormControl style={divStyle}>
+              <TextField
+                id="input-injection-source"
+                label="Source"
+                value={source}
+                onChange={(e) => setSource(e.target.value)}
+              />
+            </FormControl>
+          </TableRow>
+          <TableRow>
+            <FormControl style={divStyle}>
+              <TextField
+                id="input-injection-contenttype"
+                label="Content-Type"
+                value={contenttype}
+                onChange={(e) => setContenttype(e.target.value)}
+              />
+            </FormControl>
+          </TableRow>
+          <TableRow>
+            <FormControl style={divStyle}>
+              <TextField
+                id="input-injection-dest"
+                label="Destination"
+                value={destination}
+                onChange={(e) => setDestination(e.target.value)}
+              />
+            </FormControl>
+          </TableRow>
+          <TableRow>
+            <FormControl style={divStyle}>
+              <TextArea
+                id="input-injection-data"
+                label="Data"
+                value={data}
+                onChange={(e) => setData(e.target.value)}
+              />
+            </FormControl>
+          </TableRow>
+          <TableRow>
+            <FormControl style={divStyle}>
+              <Button
+                id="input-injection-button"
+                label="Submit"
+                onClick={handleInjection}
+              >
+                Send
+              </Button>
+            </FormControl>
+          </TableRow>
+        </TableBody>
+      </Drawer>
 
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Paper>
-            <Table items={events} filter={filter}/>
+            <Table items={events} filter={filter} />
           </Paper>
           <div ref={endRef} />
 
           <Box pt={4}>
             <Source />
           </Box>
-       
         </Container>
-        
       </main>
     </div>
   );

@@ -1,35 +1,34 @@
-import React, { useState } from 'react';
-import { lighten, makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import AddIcon from '@material-ui/icons/Add';
+import React, { useState } from "react";
+import { lighten, makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import AddIcon from "@material-ui/icons/Add";
 import List from "@material-ui/core/List";
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import Checkbox from '@material-ui/core/Checkbox';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { TextArea } from 'grommet';
-import { Button } from '@material-ui/core';
-
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import Checkbox from "@material-ui/core/Checkbox";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import { TextArea } from "grommet";
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -44,12 +43,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const attributes = ["specversion", "datacontenttype", "dataschema", "source", "type", "subject", "time"];
+const attributes = [
+  "specversion",
+  "datacontenttype",
+  "dataschema",
+  "source",
+  "type",
+  "subject",
+  "time",
+];
 
 const headCells = [
-  { id: 'attr', label: 'Name' },
-  { id: 'match', label: 'Match' },
-  { id: 'value', label: 'Value' },
+  { id: "attr", label: "Name" },
+  { id: "match", label: "Match" },
+  { id: "value", label: "Value" },
 ];
 
 function EnhancedTableHead(props) {
@@ -63,13 +70,11 @@ function EnhancedTableHead(props) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all filters' }}
+            inputProps={{ "aria-label": "select all filters" }}
           />
         </TableCell>
         {headCells.map((headCell) => (
-          <TableCell key={headCell.id}>
-            {headCell.label}
-          </TableCell>
+          <TableCell key={headCell.id}>{headCell.label}</TableCell>
         ))}
       </TableRow>
     </TableHead>
@@ -82,17 +87,17 @@ const useToolbarStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(1),
   },
   highlight:
-    theme.palette.type === 'light'
+    theme.palette.type === "light"
       ? {
-        color: theme.palette.secondary.main,
-        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-      }
+          color: theme.palette.secondary.main,
+          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+        }
       : {
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.secondary.dark,
-      },
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.secondary.dark,
+        },
   title: {
-    flex: '1 1 100%',
+    flex: "1 1 100%",
     paddingLeft: 8,
   },
 }));
@@ -108,11 +113,21 @@ const EnhancedTableToolbar = (props) => {
       })}
     >
       {numSelected > 0 ? (
-        <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
+        <Typography
+          className={classes.title}
+          color="inherit"
+          variant="subtitle1"
+          component="div"
+        >
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+        <Typography
+          className={classes.title}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
           Filters
         </Typography>
       )}
@@ -132,7 +147,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function Filters(props)  {
+export default function Filters(props) {
   // const [id, setID] = useState("");
   // const [type, setType] = useState("");
   // const [source, setSource] = useState("");
@@ -151,8 +166,6 @@ export default function Filters(props)  {
   const handleChange = (event) => {
     setFilterMatch(event.target.value);
   };
-
-
 
   const handleAdd = (event) => {
     let match;
@@ -173,10 +186,13 @@ export default function Filters(props)  {
     let attr = inputValue;
     let val = filterValue;
     if (attr !== "" && val !== "") {
-      setFilters(og => {
-        const newFilters = [...og.filter((g) => {
-          return g.key !== attr;
-        }), {key: attr, attr: attr, match: match, value: val}];
+      setFilters((og) => {
+        const newFilters = [
+          ...og.filter((g) => {
+            return g.key !== attr;
+          }),
+          { key: attr, attr: attr, match: match, value: val },
+        ];
 
         props.onChange(event, newFilters);
 
@@ -190,7 +206,6 @@ export default function Filters(props)  {
     } else {
       // TODO: add validation feedback.
     }
-
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
@@ -221,7 +236,7 @@ export default function Filters(props)  {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       );
     }
 
@@ -229,7 +244,7 @@ export default function Filters(props)  {
   };
 
   const handleDelete = (event) => {
-    let newFilters = filters.filter(f => {
+    let newFilters = filters.filter((f) => {
       return !isSelected(f.attr);
     });
 
@@ -239,27 +254,31 @@ export default function Filters(props)  {
     setSelected([]);
   };
 
-  const [value, setValue] = React.useState('');
-  const [inputValue, setInputValue] = React.useState('');
+  const [value, setValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState("");
 
   const rows = filters;
 
   return (
     <List>
-      <ListSubheader><EnhancedTableToolbar numSelected={selected.length} onDelete={handleDelete} /></ListSubheader>
+      <ListSubheader>
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          onDelete={handleDelete}
+        />
+      </ListSubheader>
       <ListItem>
-        {filters.length > 0 &&
-
-        <TableContainer component={Paper}>
-          <Table className={classes.table}>
-            <EnhancedTableHead
-              classes={classes}
-              numSelected={selected.length}
-              onSelectAllClick={handleSelectAllClick}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {rows.map((row, index) => {
+        {filters.length > 0 && (
+          <TableContainer component={Paper}>
+            <Table className={classes.table}>
+              <EnhancedTableHead
+                classes={classes}
+                numSelected={selected.length}
+                onSelectAllClick={handleSelectAllClick}
+                rowCount={rows.length}
+              />
+              <TableBody>
+                {rows.map((row, index) => {
                   const isItemSelected = isSelected(row.attr);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -276,33 +295,41 @@ export default function Filters(props)  {
                       <TableCell padding="checkbox">
                         <Checkbox
                           checked={isItemSelected}
-                          inputProps={{ 'aria-labelledby': labelId }}
+                          inputProps={{ "aria-labelledby": labelId }}
                         />
                       </TableCell>
-                      <TableCell component="th" scope="row">{row.attr}</TableCell>
+                      <TableCell component="th" scope="row">
+                        {row.attr}
+                      </TableCell>
                       <TableCell>{row.match}</TableCell>
                       <TableCell>{row.value}</TableCell>
                     </TableRow>
                   );
                 })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        }
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </ListItem>
       <ListItem>
-        <Autocomplete freeSolo options={attributes}
-                      value={value}
-                      onChange={(event, newValue) => {
-                        setValue(newValue);
-                      }}
-                      inputValue={inputValue}
-                      onInputChange={(event, newInputValue) => {
-                        setInputValue(newInputValue);
-                      }}
+        <Autocomplete
+          freeSolo
+          options={attributes}
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+          }}
+          inputValue={inputValue}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+          }}
           renderInput={(params) => (
             <FormControl className={classes.formControl}>
-              <TextField id="input-filter-attribute" {...params} label="Attribute"/>
+              <TextField
+                id="input-filter-attribute"
+                {...params}
+                label="Attribute"
+              />
             </FormControl>
           )}
         />
@@ -325,7 +352,13 @@ export default function Filters(props)  {
       </ListItem>
       <ListItem>
         <FormControl className={classes.formControl}>
-          <TextField id="input-filter-value" label="Value" value={filterValue} onChange={handleValChange} type="search"/>
+          <TextField
+            id="input-filter-value"
+            label="Value"
+            value={filterValue}
+            onChange={handleValChange}
+            type="search"
+          />
         </FormControl>
       </ListItem>
       <ListItem button onClick={handleAdd}>
@@ -335,8 +368,7 @@ export default function Filters(props)  {
         <ListItemText primary="Add Filter" />
       </ListItem>
       <ListItem>
-
-      <TableContainer component={Paper}>
+        <TableContainer component={Paper}>
           <Table className={classes.table}>
             <EnhancedTableHead
               classes={classes}
@@ -344,7 +376,7 @@ export default function Filters(props)  {
               onSelectAllClick={handleSelectAllClick}
               rowCount={rows.length}
             />
-        {/* <TableBody>
+            {/* <TableBody>
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
           Injection
         </Typography>
@@ -381,10 +413,9 @@ export default function Filters(props)  {
         </FormControl>
         </TableRow>
             </TableBody> */}
-            </Table>
-            </TableContainer>
+          </Table>
+        </TableContainer>
       </ListItem>
     </List>
   );
 }
-
