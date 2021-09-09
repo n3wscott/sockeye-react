@@ -1,13 +1,16 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Dashboard from './Dashboard';
 import "./App.css"
 import ReconnectingWebSocket from 'reconnecting-websocket';
+import Alert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
 
 export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       events: [],
+      open: false,
     }
   }
 
@@ -18,7 +21,7 @@ export class App extends Component {
       wsURL = "wss://" + document.location.host + "/ws";
     }
 
-    wsURL = "ws://sockeye.default.20.190.7.108.xip.io/ws";
+    wsURL = "ws://localhost:8080/ws";
 
     console.log("WS URL: " + wsURL);
 
@@ -44,7 +47,8 @@ export class App extends Component {
   }
 
   onCloudEvent(event) {
-    let data = {id: event.id};
+
+    let data = { id: event.id };
 
     Object.keys(event).forEach(key => {
       if (key === "data") {
@@ -56,27 +60,37 @@ export class App extends Component {
 
     let al = [...this.state.events];
 
-    if (data["data"] != null){
+    if (data["data"] != null) {
       al.push(data);
-      this.setState( {
+      this.setState({
         events: al
-    });
-    return;
-    } 
-    if (data["data"] === undefined){
-      alert("Event received with an invalid or missing data payload. Check the console for more information");
+      });
+      return;
+    }
+    if (data["data"] === undefined) {
+      this.showError();
       console.log("More information on the invalid event: ", event);
-      return; 
+      return;
     }
 
+  }
+
+  showError() {
+    this.setState({ open: !this.state.open });
   }
 
 
   render() {
     const events = this.state.events;
-
     return (
-      <Dashboard items={events} />
+      <div>
+        <Dashboard items={events} />
+        <Snackbar open={this.state.open} autoHideDuration={6000} >
+          <Alert severity="error">
+            Event received with an invalid or missing data payload. Check the console for more information
+          </Alert>
+        </Snackbar>
+      </div>
     );
   }
 }

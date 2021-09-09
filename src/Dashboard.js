@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react'
+import Table from './Table';
+import Filters from './Filters';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
-import GitHubIcon from '@material-ui/icons/GitHub';
+import Fab from '@material-ui/core/Fab';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -18,11 +20,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import Fab from '@material-ui/core/Fab';
 import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import Table from './Table';
-import Filters from './Filters';
+import GitHubIcon from '@material-ui/icons/GitHub';
 
 function Source() {
   return (
