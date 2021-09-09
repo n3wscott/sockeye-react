@@ -7,7 +7,6 @@ import Box from '@material-ui/core/Box';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,12 +19,10 @@ import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import Table from './Table';
 import Filters from './Filters';
-import { func } from 'prop-types';
 
 function Source() {
   return (
