@@ -1,7 +1,9 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Dashboard from './Dashboard';
 import "./App.css"
 import ReconnectingWebSocket from 'reconnecting-websocket';
+import Alert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
 
 export class App extends Component {
   constructor(props) {
@@ -9,13 +11,15 @@ export class App extends Component {
     this.state = {
       events: [],
       revert: false,
+      open: false,
     }
   }
 
-  handleRevert(e){
-    this.setState({revert: !this.state.revert})
-    this.setState( {
-      events: this.state.events.reverse()});
+  handleRevert(e) {
+    this.setState({ revert: !this.state.revert })
+    this.setState({
+      events: this.state.events.reverse()
+    });
   }
 
   componentDidMount() {
@@ -51,7 +55,8 @@ export class App extends Component {
   }
 
   onCloudEvent(event) {
-    let data = {id: event.id};
+
+    let data = { id: event.id };
 
     Object.keys(event).forEach(key => {
       if (key === "data") {
@@ -62,24 +67,60 @@ export class App extends Component {
     });
 
     let al = [...this.state.events];
-    al.push(data)
-    if (this.state.revert){
-    this.setState({events: al.reverse()});
-    } if (!this.state.revert) {
-    this.setState({events: al});
+
+    if (this.state.revert) {
+      if (data["data"] != null) {
+        al.push(data);
+        this.setState({
+          events: al.reverse()
+        });
+        return;
+      }
+      if (data["data"] === undefined) {
+        this.showError();
+        console.log("More information on the invalid event: ", event);
+        return;
+      }
+
+    } 
+    
+    if (!this.state.revert) {
+      if (data["data"] != null) {
+        al.push(data);
+        this.setState({
+          events: al
+        });
+        return;
+      }
+      if (data["data"] === undefined) {
+        this.showError();
+        console.log("More information on the invalid event: ", event);
+        return;
+      }
+
+
+    }
   }
-}
+
+
+    showError() {
+      this.setState({ open: !this.state.open });
+    }
+
 
 
 
   render() {
     const events = this.state.events;
-
     return (
       <div>
-
-      <Dashboard items={events} revert={() => this.handleRevert()}  />
-      </div>
+        <Dashboard items={events} revert={() => this.handleRevert()} />
+        <Snackbar open={this.state.open} autoHideDuration={6000} >
+          <Alert severity="error">
+            Event received with an invalid or missing data payload. Check the console for more information
+          </Alert>
+        </Snackbar>
+      </div >
     );
   }
 }
