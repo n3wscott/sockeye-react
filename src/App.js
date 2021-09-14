@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import Dashboard from "./Dashboard";
 import "./App.css";
 import ReconnectingWebSocket from "reconnecting-websocket";
-const axios = require("axios");
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
+const axios = require("axios");
+
 
 const corsOptions = {
   origin: "*",
@@ -32,7 +33,6 @@ export class App extends Component {
         console.log(error);
       });
     }
-  }
 
   componentDidMount() {
     console.log("Protocol: " + window.location.protocol);
