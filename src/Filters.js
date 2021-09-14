@@ -1,34 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import { lighten, makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import AddIcon from "@material-ui/icons/Add";
-import List from "@material-ui/core/List";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
+import {
+  List,
+  ListSubheader,
+  ListItemText,
+  ListItemIcon,
+  ListItem,
+  InputLabel,
+  MenuItem,
+  TextField,
+  FormControl,
+  Select,
+  Checkbox,
+  Toolbar,
+  Typography,
+  Tooltip,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import Checkbox from "@material-ui/core/Checkbox";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "@material-ui/core/IconButton";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import { TextArea } from "grommet";
-import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -148,12 +148,6 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function Filters(props) {
-  // const [id, setID] = useState("");
-  // const [type, setType] = useState("");
-  // const [source, setSource] = useState("");
-  // const [contenttype, setContenttype] = useState("application/json");
-  // const [data, setData] = useState("");
-
   const classes = useStyles();
 
   const [selected, setSelected] = React.useState([]);
@@ -376,43 +370,6 @@ export default function Filters(props) {
               onSelectAllClick={handleSelectAllClick}
               rowCount={rows.length}
             />
-            {/* <TableBody>
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          Injection
-        </Typography>
-        <TableRow>
-        <FormControl className={classes.formControl} >
-          <TextField id="input-injection-ceid" label="ID" value={id} onChange={e=> setID( e.target.value)}/>
-        </FormControl>
-        </TableRow>
-        <TableRow>
-        <FormControl className={classes.formControl}>
-          <TextField id="input-injection-type" label="Type" value={type} onChange={e=> setType(e.target.value)}/>
-        </FormControl>
-        </TableRow>
-        <TableRow>
-        <FormControl className={classes.formControl}>
-          <TextField id="input-injection-source" label="Source" value={source} onChange={e=> setSource(e.target.value)} />
-        </FormControl>
-        </TableRow>
-        <TableRow>
-        <FormControl className={classes.formControl}>
-          <TextField id="input-injection-contenttype" label="Content-Type" value={contenttype} onChange={e=> setContenttype(e.target.value)} />
-        </FormControl>
-        </TableRow>
-        <TableRow>
-        <FormControl className={classes.formControl}>
-          <TextArea id="input-injection-data" label="Data" value={data} onChange={e=> setData(e.target.value)}/>
-        </FormControl>
-        </TableRow>
-        <TableRow>
-        <FormControl className={classes.formControl}>
-          <Button id="input-injection-button" label="Submit" onClick={handleInjection}>
-            Send
-            </Button>
-        </FormControl>
-        </TableRow>
-            </TableBody> */}
           </Table>
         </TableContainer>
       </ListItem>

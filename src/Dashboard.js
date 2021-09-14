@@ -1,37 +1,34 @@
 import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Drawer from "@material-ui/core/Drawer";
-import Box from "@material-ui/core/Box";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
-import Container from "@material-ui/core/Container";
-import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
+import {
+  CssBaseline,
+  Drawer,
+  Box,
+  AppBar,
+  Toolbar,
+  Typography,
+  Divider,
+  IconButton,
+  Badge,
+  Container,
+  Paper,
+  Link,
+  Fab,
+  SvgIcon,
+
+} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
+import GitHubIcon from "@material-ui/icons/GitHub";
 import ClearAllIcon from "@material-ui/icons/ClearAll";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
-import TextField from "@material-ui/core/TextField";
 import LockIcon from "@material-ui/icons/Lock";
+import { ReactComponent as InjectionLogo } from "./injection.svg";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import Table from "./Table";
-import TableRow from "@material-ui/core/TableRow";
-import TableBody from "@material-ui/core/TableBody";
 import Filters from "./Filters";
-import { func } from "prop-types";
-import FormControl from "@material-ui/core/FormControl";
-import { TextArea } from "grommet";
-import { Button } from "@material-ui/core";
-const axios = require("axios");
+import Injection from "./Injection"
 
 function Source() {
   return (
@@ -103,6 +100,27 @@ const useStyles = makeStyles((theme) => ({
       width: theme.spacing(0),
     },
   },
+  drawerPaper2: {
+    paddingTop: theme.spacing(9),
+    position: "relative",
+    whiteSpace: "nowrap",
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerPaperClose2: {
+    overflowX: "hidden",
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(0),
+    },
+  },
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
@@ -126,6 +144,12 @@ const useStyles = makeStyles((theme) => ({
     height: 60,
     paddingRight: 80,
   },
+  injection: {
+    paddingTop: "20px",
+    paddingLeft: "5px",
+    height: "2%",
+    width: "2%",
+  },
   fab: {
     position: "absolute",
     bottom: theme.spacing(2),
@@ -135,6 +159,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard(props) {
   const events = props.items;
+  const destinations = props.destinations;
 
   const endRef = useRef(null);
   const classes = useStyles();
@@ -142,19 +167,11 @@ export default function Dashboard(props) {
   const [open, setOpen] = React.useState(false);
   const [scrollLock, setScrollLock] = React.useState(true);
   const [filter, setFilter] = React.useState([]);
-  const [id, setID] = React.useState("0123211");
-  const [type, setType] = React.useState("test.type");
-  const [source, setSource] = React.useState("test.source");
-  const [contenttype, setContenttype] = React.useState("application/json");
-  const [data, setData] = React.useState('{"test":"data"}');
-  const [destination, setDestination] = React.useState(
-    "http://broker-ingress.knative-eventing.svc.cluster.local/default/default"
-  );
+
+  const [destination] = React.useState("test.destination");
   const [showInjection, setShowInjection] = React.useState(true);
 
-  const divStyle = {
-    width: "380px",
-  };
+
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -181,34 +198,6 @@ export default function Dashboard(props) {
     setShowInjection(!showInjection);
   };
 
-  const handleInjection = (event) => {
-    const corsOptions = {
-      origin: "*",
-    };
-
-    axios
-      .post(
-        "http://localhost:8080/inject",
-        {
-          destination,
-          data,
-          headers: {
-            "Ce-Id": id,
-            "Ce-Specversion": "1.0",
-            "Ce-Type": type,
-            "Ce-Source": source,
-            "Content-Type": contenttype,
-          },
-        },
-        corsOptions
-      )
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
 
   // After render.
   useEffect(() => {
@@ -224,8 +213,11 @@ export default function Dashboard(props) {
 
   return (
     <div className={classes.root} onWheel={handleWheel}>
-      <AddIcon onClick={handleShowInjection} />
+
       <CssBaseline />
+      <SvgIcon className={classes.injection} >
+        <InjectionLogo fill="black" onClick={handleShowInjection} />
+      </SvgIcon>
       <Fab
         color="primary"
         aria-label="add"
@@ -238,6 +230,7 @@ export default function Dashboard(props) {
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
+        
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -250,7 +243,9 @@ export default function Dashboard(props) {
             )}
           >
             <MenuIcon />
+            
           </IconButton>
+
           <Typography
             component="h1"
             variant="h6"
@@ -295,98 +290,16 @@ export default function Dashboard(props) {
           }}
         />
       </Drawer>
-
       <Drawer
         variant="permanent"
         classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+          paper: clsx(classes.drawerPaper2, !open && classes.drawerPaperClose2),
         }}
         hidden={showInjection}
       >
-        <div className={classes.toolbarIcon}></div>
-
-        <Divider />
-        <TableBody>
-          <Typography
-            className={classes.title}
-            variant="h6"
-            id="tableTitle"
-            component="div"
-          >
-            Injection
-          </Typography>
-          <TableRow>
-            <FormControl style={divStyle}>
-              <TextField
-                id="input-injection-ceid"
-                label="ID"
-                value={id}
-                onChange={(e) => setID(e.target.value)}
-              />
-            </FormControl>
-          </TableRow>
-          <TableRow>
-            <FormControl style={divStyle}>
-              <TextField
-                id="input-injection-type"
-                label="Type"
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-              />
-            </FormControl>
-          </TableRow>
-          <TableRow>
-            <FormControl style={divStyle}>
-              <TextField
-                id="input-injection-source"
-                label="Source"
-                value={source}
-                onChange={(e) => setSource(e.target.value)}
-              />
-            </FormControl>
-          </TableRow>
-          <TableRow>
-            <FormControl style={divStyle}>
-              <TextField
-                id="input-injection-contenttype"
-                label="Content-Type"
-                value={contenttype}
-                onChange={(e) => setContenttype(e.target.value)}
-              />
-            </FormControl>
-          </TableRow>
-          <TableRow>
-            <FormControl style={divStyle}>
-              <TextField
-                id="input-injection-dest"
-                label="Destination"
-                value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-              />
-            </FormControl>
-          </TableRow>
-          <TableRow>
-            <FormControl style={divStyle}>
-              <TextArea
-                id="input-injection-data"
-                label="Data"
-                value={data}
-                onChange={(e) => setData(e.target.value)}
-              />
-            </FormControl>
-          </TableRow>
-          <TableRow>
-            <FormControl style={divStyle}>
-              <Button
-                id="input-injection-button"
-                label="Submit"
-                onClick={handleInjection}
-              >
-                Send
-              </Button>
-            </FormControl>
-          </TableRow>
-        </TableBody>
+       
+        <Divider  />
+        <Injection useStyles={classes.appBar} destination={destination} destinations={destinations}/>
       </Drawer>
 
       <main className={classes.content}>

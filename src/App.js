@@ -2,13 +2,34 @@ import React, { Component } from "react";
 import Dashboard from "./Dashboard";
 import "./App.css";
 import ReconnectingWebSocket from "reconnecting-websocket";
+const axios = require("axios");
+
+
+const corsOptions = {
+  origin: "*",
+};
+
 
 export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       events: [],
+      destinations: [],
     };
+  }
+
+
+  fetchServices = () => {
+    axios
+      .post("http://sockeye.default.20.190.7.108.xip.io/queryservices",{},corsOptions)
+      .then((response) => {
+        console.log(response.data);
+          this.setState({destinations:response.data});
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   componentDidMount() {
@@ -18,9 +39,11 @@ export class App extends Component {
       wsURL = "wss://" + document.location.host + "/ws";
     }
 
-    wsURL = "ws://localhost:8080/ws";
+    wsURL = "ws://sockeye.default.20.190.7.108.xip.io/ws";
 
     console.log("WS URL: " + wsURL);
+
+    this.fetchServices();
 
     let that = this;
 
@@ -41,6 +64,8 @@ export class App extends Component {
       console.log(t);
       that.onCloudEvent(t);
     };
+
+    
   }
 
   onCloudEvent(event) {
@@ -64,8 +89,9 @@ export class App extends Component {
 
   render() {
     const events = this.state.events;
+    const destinations = this.state.destinations;
 
-    return <Dashboard items={events} />;
+    return <Dashboard items={events} destinations={destinations}/>;
   }
 }
 
