@@ -21,7 +21,6 @@ export class App extends Component {
     };
   }
 
-
   fetchServices = () => {
     axios
       .post("http://sockeye.default.20.190.7.108.xip.io/queryservices",{},corsOptions)
