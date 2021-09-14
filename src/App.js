@@ -3,12 +3,12 @@ import Dashboard from "./Dashboard";
 import "./App.css";
 import ReconnectingWebSocket from "reconnecting-websocket";
 const axios = require("axios");
-
+import Alert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
 
 const corsOptions = {
   origin: "*",
 };
-
 
 export class App extends Component {
   constructor(props) {
@@ -16,6 +16,7 @@ export class App extends Component {
     this.state = {
       events: [],
       destinations: [],
+      open: false,
     };
   }
 
@@ -30,6 +31,7 @@ export class App extends Component {
       .catch((error) => {
         console.log(error);
       });
+    }
   }
 
   componentDidMount() {
@@ -39,7 +41,7 @@ export class App extends Component {
       wsURL = "wss://" + document.location.host + "/ws";
     }
 
-    wsURL = "ws://sockeye.default.20.190.7.108.xip.io/ws";
+    wsURL = "ws://localhost:8080/ws";
 
     console.log("WS URL: " + wsURL);
 
@@ -80,18 +82,40 @@ export class App extends Component {
     });
 
     let al = [...this.state.events];
-    al.push(data);
 
-    this.setState({
-      events: al,
-    });
+    if (data["data"] != null) {
+      al.push(data);
+      this.setState({
+        events: al
+      });
+      return;
+    }
+    if (data["data"] === undefined) {
+      this.showError();
+      console.log("More information on the invalid event: ", event);
+      return;
+    }
+
+  }
+
+  showError() {
+    this.setState({ open: !this.state.open });
   }
 
   render() {
     const events = this.state.events;
     const destinations = this.state.destinations;
 
-    return <Dashboard items={events} destinations={destinations}/>;
+    return (
+      <div>
+        <Dashboard items={events} destinations={destinations} />
+        <Snackbar open={this.state.open} autoHideDuration={6000} >
+          <Alert severity="error">
+            Event received with an invalid or missing data payload. Check the console for more information
+          </Alert>
+        </Snackbar>
+      </div>
+    );
   }
 }
 
