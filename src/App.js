@@ -40,7 +40,6 @@ export class App extends Component {
       wsURL = "wss://" + document.location.host + "/ws";
     }
 
-    wsURL = "ws://sockeye.default.20.190.7.108.xip.io/ws";
 
     console.log("WS URL: " + wsURL);
 
