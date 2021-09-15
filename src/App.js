@@ -10,8 +10,16 @@ export class App extends Component {
     super(props);
     this.state = {
       events: [],
+      revert: false,
       open: false,
     }
+  }
+
+  handleRevert(e) {
+    this.setState({ revert: !this.state.revert })
+    this.setState({
+      events: this.state.events.reverse()
+    });
   }
 
   componentDidMount() {
@@ -21,7 +29,7 @@ export class App extends Component {
       wsURL = "wss://" + document.location.host + "/ws";
     }
 
-    wsURL = "ws://localhost:8080/ws";
+    wsURL = "ws://sockeye.default.20.190.7.108.xip.io/ws";
 
     console.log("WS URL: " + wsURL);
 
@@ -60,37 +68,59 @@ export class App extends Component {
 
     let al = [...this.state.events];
 
-    if (data["data"] != null) {
-      al.push(data);
-      this.setState({
-        events: al
-      });
-      return;
-    }
-    if (data["data"] === undefined) {
-      this.showError();
-      console.log("More information on the invalid event: ", event);
-      return;
-    }
+    if (this.state.revert) {
+      if (data["data"] != null) {
+        al.push(data);
+        this.setState({
+          events: al.reverse()
+        });
+        return;
+      }
+      if (data["data"] === undefined) {
+        this.showError();
+        console.log("More information on the invalid event: ", event);
+        return;
+      }
 
+    } 
+    
+    if (!this.state.revert) {
+      if (data["data"] != null) {
+        al.push(data);
+        this.setState({
+          events: al
+        });
+        return;
+      }
+      if (data["data"] === undefined) {
+        this.showError();
+        console.log("More information on the invalid event: ", event);
+        return;
+      }
+
+
+    }
   }
 
-  showError() {
-    this.setState({ open: !this.state.open });
-  }
+
+    showError() {
+      this.setState({ open: !this.state.open });
+    }
+
+
 
 
   render() {
     const events = this.state.events;
     return (
       <div>
-        <Dashboard items={events} />
+        <Dashboard items={events} revert={() => this.handleRevert()} />
         <Snackbar open={this.state.open} autoHideDuration={6000} >
           <Alert severity="error">
             Event received with an invalid or missing data payload. Check the console for more information
           </Alert>
         </Snackbar>
-      </div>
+      </div >
     );
   }
 }
