@@ -29,6 +29,11 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `make update-sockeye`
+
+if your sockeye source directory lives in the same parent directory as sockeye-react 
+then you can use the makefile comand `build sockeye-react` to build the project and update the static contents of sockeye
+
 ### `yarn eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**

@@ -53,7 +53,7 @@ export default function Injection(props) {
   const handleInjection = (event) => {
     axios
       .post(
-        "http://sockeye.default.20.190.7.108.xip.io/inject",
+        "/inject",
         {
           destination,
           data,
