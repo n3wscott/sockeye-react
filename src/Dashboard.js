@@ -29,6 +29,9 @@ import LockOpenIcon from "@material-ui/icons/LockOpen";
 import Table from "./Table";
 import Filters from "./Filters";
 import Injection from "./Injection"
+import CachedIcon from '@material-ui/icons/Cached';
+
+
 
 function Source() {
   return (
@@ -211,6 +214,7 @@ export default function Dashboard(props) {
     ScrollLockIcon = LockOpenIcon;
   }
 
+
   return (
     <div className={classes.root} onWheel={handleWheel}>
 
@@ -263,6 +267,7 @@ export default function Dashboard(props) {
               <NotificationsIcon />
             </Badge>
           </IconButton>
+           <CachedIcon onClick={() => props.revert()} />
         </Toolbar>
       </AppBar>
       <Drawer

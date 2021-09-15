@@ -17,6 +17,7 @@ export class App extends Component {
     this.state = {
       events: [],
       destinations: [],
+      revert: false,
       open: false,
     };
   }
@@ -32,6 +33,12 @@ export class App extends Component {
         console.log(error);
       });
     }
+  handleRevert(e) {
+    this.setState({ revert: !this.state.revert })
+    this.setState({
+      events: this.state.events.reverse()
+    });
+  }
 
   componentDidMount() {
     console.log("Protocol: " + window.location.protocol);
@@ -81,24 +88,46 @@ export class App extends Component {
 
     let al = [...this.state.events];
 
-    if (data["data"] != null) {
-      al.push(data);
-      this.setState({
-        events: al
-      });
-      return;
-    }
-    if (data["data"] === undefined) {
-      this.showError();
-      console.log("More information on the invalid event: ", event);
-      return;
-    }
+    if (this.state.revert) {
+      if (data["data"] != null) {
+        al.push(data);
+        this.setState({
+          events: al.reverse()
+        });
+        return;
+      }
+      if (data["data"] === undefined) {
+        this.showError();
+        console.log("More information on the invalid event: ", event);
+        return;
+      }
 
+    } 
+    
+    if (!this.state.revert) {
+      if (data["data"] != null) {
+        al.push(data);
+        this.setState({
+          events: al
+        });
+        return;
+      }
+      if (data["data"] === undefined) {
+        this.showError();
+        console.log("More information on the invalid event: ", event);
+        return;
+      }
+
+
+    }
   }
 
-  showError() {
-    this.setState({ open: !this.state.open });
-  }
+
+    showError() {
+      this.setState({ open: !this.state.open });
+    }
+
+
 
   render() {
     const events = this.state.events;
@@ -106,13 +135,13 @@ export class App extends Component {
 
     return (
       <div>
-        <Dashboard items={events} destinations={destinations} />
+        <Dashboard items={events} destinations={destinations}  revert={() => this.handleRevert()} />
         <Snackbar open={this.state.open} autoHideDuration={6000} >
           <Alert severity="error">
             Event received with an invalid or missing data payload. Check the console for more information
           </Alert>
         </Snackbar>
-      </div>
+      </div >
     );
   }
 }
