@@ -246,6 +246,7 @@ export default function Dashboard(props) {
               open && classes.menuButtonHidden
             )}
           >
+            
             <MenuIcon />
             
           </IconButton>
@@ -281,7 +282,7 @@ export default function Dashboard(props) {
           <img
             className={classes.sockeyeLogo}
             alt={""}
-            src="http://sockeye.default.20.190.7.108.xip.io/static/assets/sockeye-logo.png"
+            src="/static/assets/sockeye-logo.png"
           />
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
