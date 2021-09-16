@@ -27,7 +27,6 @@
     "styled-components": "^5.2.1",
     "web-vitals": "^0.2.4"
   },
-  "proxy": "http://sockeye.default.20.190.7.108.xip.io",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
