@@ -2,10 +2,10 @@ import React from "react";
 import {
   withStyles,
   makeStyles,
-} from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Chip from "@material-ui/core/Chip";
-import Avatar from "@material-ui/core/Avatar";
+} from "@mui/styles";
+import TextField from "@mui/material/TextField";
+import Chip from "@mui/material/Chip";
+import Avatar from "@mui/material/Avatar";
 
 const CssTextField = withStyles({
   root: {

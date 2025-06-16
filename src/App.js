@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Dashboard from './Dashboard';
 import "./App.css"
 import ReconnectingWebSocket from 'reconnecting-websocket';
-import Alert from '@material-ui/lab/Alert';
-import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 export class App extends Component {
   constructor(props) {
