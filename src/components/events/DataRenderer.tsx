@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { Box } from '@mui/material';
 import JSONPretty from 'react-json-pretty';
+import { useTheme } from '@mui/material/styles';
 import { CloudEvent } from '../../types';
 
 interface DataRendererProps {
@@ -19,6 +20,7 @@ function parseQuotedData(data: any): any {
 }
 
 function DataRenderer({ event }: DataRendererProps) {
+  const theme = useTheme();
   let data = event.data;
   
   // Handle base64 encoded data
@@ -34,6 +36,29 @@ function DataRenderer({ event }: DataRendererProps) {
   const mediaType = event.datacontenttype || 'text/plain';
   const parsedData = parseQuotedData(data);
 
+  // Get theme-aware JSON colors
+  const getJsonTheme = () => {
+    if (theme.palette.mode === 'dark') {
+      return {
+        main: 'line-height:1.3;color:#e0e0e0;background:#2d2d2d;overflow:auto;padding:8px;border-radius:4px;border:1px solid #444;',
+        error: 'line-height:1.3;color:#ff6b6b;background:#2d2d2d;overflow:auto;',
+        key: 'color:#66d9ef;',      // Cyan for keys
+        string: 'color:#a6e22e;',   // Green for strings
+        value: 'color:#ae81ff;',    // Purple for values
+        boolean: 'color:#fd971f;'   // Orange for booleans
+      };
+    } else {
+      return {
+        main: 'line-height:1.3;color:#444;background:#fff;overflow:auto;padding:8px;border-radius:4px;border:1px solid #e0e0e0;',
+        error: 'line-height:1.3;color:#444;background:#fff;overflow:auto;',
+        key: 'color:#881391;',      // Purple for keys
+        string: 'color:#c41a16;',   // Red for strings  
+        value: 'color:#1c00cf;',    // Blue for values
+        boolean: 'color:#1c00cf;'   // Blue for booleans
+      };
+    }
+  };
+
   // Handle JSON content
   if (mediaType.startsWith('application/json') || mediaType.startsWith('text/json')) {
     try {
@@ -42,14 +67,7 @@ function DataRenderer({ event }: DataRendererProps) {
         <Box>
           <JSONPretty 
             data={jsonData}
-            theme={{
-              main: 'line-height:1.3;color:#444;background:#fff;overflow:auto;padding:8px;border-radius:4px;border:1px solid #e0e0e0;',
-              error: 'line-height:1.3;color:#444;background:#fff;overflow:auto;',
-              key: 'color:#881391;',
-              string: 'color:#c41a16;',
-              value: 'color:#1c00cf;',
-              boolean: 'color:#1c00cf;'
-            }}
+            theme={getJsonTheme()}
             space={2}
           />
         </Box>
