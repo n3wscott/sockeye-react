@@ -40,7 +40,18 @@ function DataRenderer({ event }: DataRendererProps) {
       const jsonData = typeof parsedData === 'string' ? JSON.parse(parsedData) : parsedData;
       return (
         <Box>
-          <JSONPretty data={jsonData} />
+          <JSONPretty 
+            data={jsonData}
+            theme={{
+              main: 'line-height:1.3;color:#444;background:#fff;overflow:auto;padding:8px;border-radius:4px;border:1px solid #e0e0e0;',
+              error: 'line-height:1.3;color:#444;background:#fff;overflow:auto;',
+              key: 'color:#881391;',
+              string: 'color:#c41a16;',
+              value: 'color:#1c00cf;',
+              boolean: 'color:#1c00cf;'
+            }}
+            space={2}
+          />
         </Box>
       );
     } catch (err) {
