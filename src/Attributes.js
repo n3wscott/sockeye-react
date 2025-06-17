@@ -16,7 +16,7 @@ const CssTextField = withStyles({
       borderBottomColor: "lightgray"
     },
     "& .MuiInputBase-input": {
-      padding: 0,
+      padding: 2,
       width: "100%"
     }
   }
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
   margin: {
-    padding: 0,
+    padding: 1,
     margin: 4
   },
   list: {

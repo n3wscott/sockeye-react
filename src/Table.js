@@ -7,7 +7,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import JSONPretty from 'react-json-pretty';
 import Fade from '@mui/material/Fade';
 import './Json.css';
 
@@ -17,6 +16,7 @@ import './App.css';
 // import XMLViewer from 'react-xml-viewer' // Removed due to compatibility issues
 
 import Attributes from './Attributes';
+import Data from './Data';
 
 const useStyles = makeStyles({
   root: {
@@ -32,55 +32,6 @@ const useStyles = makeStyles({
     maxWidth: 500,
   },
 });
-
-function Data(props) {
-  let data = props.item.data;
-
-  let data_base64 = null;
-  if ("data_base64" in props.item) {
-    data_base64 = props.item["data_base64"];
-  }
-
-  if (data_base64 !== null) {
-    try {
-      data = atob(data_base64);
-    } catch (err) {
-      console.error(err);
-      data = data_base64;
-    }
-  }
-
-  let mediaType = "unknown";
-  if ("datacontenttype" in props.item) {
-    mediaType = props.item["datacontenttype"]
-  }
-
-  if (mediaType.startsWith("application/json") || mediaType.startsWith("text/json")) {
-    let src = JSON.parse(data);
-
-    return (
-      <JSONPretty data={src}/>
-    );
-  }
-  if (mediaType.startsWith("application/xml") || mediaType.startsWith("text/xml")) {
-    if (data.startsWith("\"")) {
-      // Data was part of a JSON string, parse it.
-      data = JSON.parse(data);
-    }
-    return (
-      <pre>
-        {data}
-      </pre>
-    );
-  }
-  return (
-    <pre>
-      {data}
-    </pre>
-  );
-}
-
-
 
 export default function BasicTable(props) {
   const classes = useStyles();
