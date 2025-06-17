@@ -1,11 +1,9 @@
 import React, { memo, useMemo } from 'react';
 import { 
   Container, 
-  Typography, 
   Box, 
   CircularProgress,
   Alert,
-  Paper,
   Chip
 } from '@mui/material';
 import { useApp } from '../../contexts/AppContext';

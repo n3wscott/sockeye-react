@@ -4,8 +4,7 @@ import {
   Popover, 
   Badge, 
   Box,
-  Typography,
-  Paper
+  Typography
 } from '@mui/material';
 import { FilterList } from '@mui/icons-material';
 import { useApp } from '../../contexts/AppContext';

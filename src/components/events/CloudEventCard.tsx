@@ -7,7 +7,6 @@ import {
   TableRow, 
   Paper,
   Box,
-  Chip,
   Typography
 } from '@mui/material';
 import { CloudEvent } from '../../types';
