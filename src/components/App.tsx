@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { AppProvider } from '../contexts/AppContext';
@@ -25,13 +25,7 @@ const theme = createTheme({
 });
 
 function AppContent() {
-  const { connect } = useWebSocket();
-
-  useEffect(() => {
-    console.log('App mounted, attempting to connect...');
-    // Auto-connect on mount - only once
-    connect();
-  }, []); // Empty dependency array to run only once
+  useWebSocket(); // Hook handles auto-connect internally
 
   return (
     <ErrorBoundary>
